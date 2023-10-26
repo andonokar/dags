@@ -23,7 +23,7 @@ spec:
   imagePullPolicy: Always
   imagePullSecrets:
     - docker-pass
-  mainApplicationFile: "local:///app/e2etesta.py"
+  mainApplicationFile: "local:///app/e2etest.py"
   arguments:
     - "csn"
     - "DEMANDA"
