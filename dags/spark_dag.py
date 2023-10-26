@@ -1,5 +1,5 @@
-from airflow.operators.bash import BashOperator
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
+from airflow.providers.cncf.kubernetes.operators.resource import KubernetesDeleteResourceOperator
 
 from airflow import DAG
 from datetime import datetime
@@ -22,9 +22,10 @@ with DAG(
         namespace="spark-operator",
         watch=True
     )
-    task_deleter = BashOperator(
+    task_deleter = KubernetesDeleteResourceOperator(
         task_id='delete_test_spark',
-        bash_command="kubectl delete -n spark-operator spark.yaml",
+        yaml_conf=open('spark.yaml', 'w').read(),
+        namespace='spark-operator',
         trigger_rule='all_done'
     )
     spark_task >> task_deleter
