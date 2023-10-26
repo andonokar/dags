@@ -1,7 +1,7 @@
 apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
-  name: domrock-spark-teste-{{ ds }}
+  name: domrock-spark-teste-{{ ts }}
   namespace: spark-operator
 spec:
   volumes:
