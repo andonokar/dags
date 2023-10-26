@@ -18,6 +18,5 @@ with DAG(
     spark_task = SparkKubernetesOperator(
         task_id='test_spark',
         application_file='spark.yaml',
-        namespace="spark-operator",
-        name='your_spark_job'
+        namespace="spark-operator"
     )
