@@ -23,7 +23,7 @@ with DAG(
         watch=True
     )
     task_deleter = KubernetesDeleteResourceOperator(
+        task_id='delete_test_spark',
         yaml_conf='spark.yaml',
         namespace='spark-operator'
     )
-
