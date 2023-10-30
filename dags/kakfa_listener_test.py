@@ -18,7 +18,7 @@ with DAG(
 ) as dag:
     def await_function(message):
         val = json.loads(message.value())
-        print(val)
+        print(val) 
         return val
 
     def wait_for_event(message, **context):
