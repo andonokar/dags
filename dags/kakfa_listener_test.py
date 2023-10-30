@@ -14,6 +14,7 @@ with DAG(
     'my_kafka_dagv2',
     default_args=default_args,
     schedule_interval='@continuous',  # Set to None if you don't want the DAG to be scheduled
+    max_active_runs=1
 ) as dag:
     def await_function(message):
         val = json.loads(message.value())
