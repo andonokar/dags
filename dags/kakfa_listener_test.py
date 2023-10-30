@@ -18,11 +18,13 @@ with DAG(
 ) as dag:
     def await_function(message):
         val = json.loads(message.value())
+        print(val)
         return val
 
     def wait_for_event(message, **context):
         print(message)
         print(context)
+        return message, context
 
     kafka_task = AwaitMessageTriggerFunctionSensor(
         task_id='test_kafka',
