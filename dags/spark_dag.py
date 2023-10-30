@@ -1,6 +1,7 @@
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow import DAG
 from datetime import datetime
+from airflow.providers.apache.kafka.sensors.kafka import AwaitMessageTriggerFunctionSensor
 
 default_args = {
     'owner': 'anderson',
