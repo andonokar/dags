@@ -67,7 +67,6 @@ def event_triggered_function(message, **context):
 def listen_to_the_stream():
     listen_for_mood = AwaitMessageTriggerFunctionSensor(
         task_id="listen_for_mood",
-        kafka_config_id="kafka_listener",
         topics=[KAFKA_TOPIC],
         # the apply function will be used from within the triggerer, this is
         # why it needs to be a dot notation string
