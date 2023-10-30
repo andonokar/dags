@@ -11,7 +11,7 @@ default_args = {
 }
 
 with DAG(
-    'my_spark_dag',
+    'my_kafka_dag',
     default_args=default_args,
     schedule_interval=None,  # Set to None if you don't want the DAG to be scheduled
 ) as dag:
