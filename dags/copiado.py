@@ -4,7 +4,7 @@
 This DAG will always run and asynchronously monitor a Kafka topic for a message
 which causes the funtion supplied to the `apply_function` parameter to return a value.
 If a value is returned by the `apply_function`, the `event_triggered_function` is
-executed. Afterward the task will go into a deferred state again.
+executed. Afterwards the task will go into a deferred state again.
 """
 
 from airflow.decorators import dag
@@ -36,7 +36,7 @@ def listen_function(message, pet_moods_needing_a_walk=[]):
 
 
 def event_triggered_function(message, **context):
-    """Kicks off a downstream DAG with conf and waits for its completion."""
+    "Kicks off a downstream DAG with conf and waits for its completion."
 
     pet_name = message[0]
     pet_mood_post_treat = message[1]
@@ -67,6 +67,7 @@ def event_triggered_function(message, **context):
 def listen_to_the_stream():
     listen_for_mood = AwaitMessageTriggerFunctionSensor(
         task_id="listen_for_mood",
+        kafka_config_id="kafka_listener",
         topics=[KAFKA_TOPIC],
         # the apply function will be used from within the triggerer, this is
         # why it needs to be a dot notation string
