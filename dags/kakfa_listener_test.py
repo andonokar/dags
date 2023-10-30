@@ -11,7 +11,7 @@ default_args = {
 }
 
 with DAG(
-    'my_kafka_dag',
+    'my_kafka_dagv2',
     default_args=default_args,
     schedule_interval=None,  # Set to None if you don't want the DAG to be scheduled
 ) as dag:
@@ -25,7 +25,7 @@ with DAG(
 
     kafka_task = AwaitMessageTriggerFunctionSensor(
         task_id='test_kafka',
-        topics='teste',
+        topics=['teste'],
         apply_function="kafka_listener_test.await_function",
         event_triggered_function=wait_for_event
     )
