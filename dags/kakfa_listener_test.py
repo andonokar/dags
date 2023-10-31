@@ -1,7 +1,9 @@
 from airflow import DAG
 from datetime import datetime
 from airflow.providers.apache.kafka.sensors.kafka import AwaitMessageTriggerFunctionSensor
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 import json
+import uuid
 
 default_args = {
     'owner': 'anderson',
@@ -22,9 +24,12 @@ with DAG(
         return val
 
     def wait_for_event(message, **context):
-        print(message)
-        print(context)
-        return message, context
+        TriggerDagRunOperator(
+            trigger_dag_id="my_spark_dag",
+            task_id=f"triggered_downstream_dag_{uuid.uuid4()}",
+            wait_for_completion=True,  # wait for downstream DAG completion
+            poke_interval=20,
+        ).execute(context)
 
     kafka_task = AwaitMessageTriggerFunctionSensor(
         task_id='test_kafka',
