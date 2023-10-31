@@ -29,6 +29,6 @@ with DAG(
     kafka_task = AwaitMessageTriggerFunctionSensor(
         task_id='test_kafka',
         topics=['teste'],
-        apply_function="kafka_listener_test.await_function",
+        apply_function="kakfa_listener_test.await_function",
         event_triggered_function=wait_for_event
     )
