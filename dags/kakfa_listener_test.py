@@ -27,8 +27,6 @@ with DAG(
         TriggerDagRunOperator(
             trigger_dag_id="my_spark_dag",
             task_id=f"triggered_downstream_dag_{uuid.uuid4()}",
-            wait_for_completion=True,  # wait for downstream DAG completion
-            poke_interval=20,
         ).execute(context)
 
     kafka_task = AwaitMessageTriggerFunctionSensor(
