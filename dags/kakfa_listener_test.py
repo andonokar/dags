@@ -3,7 +3,6 @@ from datetime import datetime
 from airflow.providers.apache.kafka.sensors.kafka import AwaitMessageTriggerFunctionSensor
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 import json
-import uuid
 
 default_args = {
     'owner': 'anderson',
