@@ -18,7 +18,7 @@ with DAG(
     schedule_interval="@continuous",  # Set to None if you don't want the DAG to be scheduled
     max_active_runs=1,
     catchup=False,
-    is_paused_upon_creation=False
+    # is_paused_upon_creation=False
 ) as dag:
     def await_function(message):
         print(message)
