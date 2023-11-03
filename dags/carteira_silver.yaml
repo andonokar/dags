@@ -1,7 +1,7 @@
 apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
-  name: domrock-spark-teste-{{ ts_nodash | lower }}
+  name: carteira-silver-{{ ts_nodash | lower }}
   namespace: spark-operator
 spec:
   volumes:

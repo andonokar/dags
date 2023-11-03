@@ -29,7 +29,6 @@ with DAG(
         application_file='demanda_silver.yaml',
         namespace="spark-operator",
         watch=True,
-        trigger_rule="none_skipped"
     )
     demanda_bronze >> demanda_silver
 
@@ -51,8 +50,7 @@ with DAG(
         task_id='carteira_silver',
         application_file='carteira_silver.yaml',
         namespace="spark-operator",
-        watch=True,
-        trigger_rule="none_skipped"
+        watch=True
     )
     carteira_bronze >> carteira_silver
 
