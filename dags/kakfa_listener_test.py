@@ -12,7 +12,7 @@ default_args = {
 }
 
 with DAG(
-    'my_kafka_dagv4',
+    'my_kafka_dagv5',
     default_args=default_args,
     schedule_interval="@continuous",  # Set to None if you don't want the DAG to be scheduled
     max_active_runs=1,
@@ -25,13 +25,13 @@ with DAG(
             val = json.loads(message.value())
         except Exception as err:
             print(type(err).__name__ + ': ' + str(err))
+            raise err
         else:
             table_name = val.get("table_name")
             return table_name
 
     def wait_for_event(message, **context):
-        val = json.loads(message.value())
-        table_name = val.get("table_name")
+        table_name = message.get("table_name")
         TriggerDagRunOperator(
             trigger_dag_id=table_name,
             task_id=f"triggered_downstream_dag_{table_name}",
