@@ -15,17 +15,22 @@ default_args = {
 with DAG(
     'my_kafka_dagv2',
     default_args=default_args,
-    schedule_interval=None,  # Set to None if you don't want the DAG to be scheduled
+    schedule_interval="@continuous",  # Set to None if you don't want the DAG to be scheduled
     max_active_runs=1
 ) as dag:
     def await_function(message):
-        val = json.loads(message.value())
-        print(val) 
-        return val
+        print(message)
+        try:
+            val = json.loads(message.value())
+        except Exception as err:
+            print(type(err).__name__ + ': ' + str(err))
+        else:
+            val.get("csn")
+            return val
 
     def wait_for_event(message, **context):
         TriggerDagRunOperator(
-            trigger_dag_id="my_spark_dag",
+            trigger_dag_id=message,
             task_id=f"triggered_downstream_dag_{uuid.uuid4()}",
         ).execute(context)
 
