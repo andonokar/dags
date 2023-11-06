@@ -38,6 +38,7 @@ with DAG(
         ).execute(context)
 
     kafka_task = AwaitMessageTriggerFunctionSensor(
+        kafka_config_id='kafka_consumer_1',
         task_id='test_kafka',
         topics=['csn'],
         apply_function="kakfa_listener_test.await_function",
