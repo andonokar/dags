@@ -1,7 +1,6 @@
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow import DAG
 from datetime import datetime
-from airflow.providers.apache.kafka.sensors.kafka import AwaitMessageTriggerFunctionSensor
 
 default_args = {
     'owner': 'anderson',
@@ -11,7 +10,7 @@ default_args = {
 }
 
 with DAG(
-    'csn_demanda',
+    'csn',
     default_args=default_args,
     schedule_interval=None,  # Set to None if you don't want the DAG to be scheduled
     max_active_runs=1,
@@ -20,13 +19,13 @@ with DAG(
 ) as dag:
     demanda_bronze = SparkKubernetesOperator(
         task_id='demanda_bronze',
-        application_file='demanda_bronze.yaml',
+        application_file='csn_templates/demanda_bronze.yaml',
         namespace="spark-operator",
         watch=True
     )
     demanda_silver = SparkKubernetesOperator(
         task_id='demanda_silver',
-        application_file='demanda_silver.yaml',
+        application_file='csn_templates/demanda_silver.yaml',
         namespace="spark-operator",
         watch=True,
     )
@@ -42,16 +41,14 @@ with DAG(
 ) as dag2:
     carteira_bronze = SparkKubernetesOperator(
         task_id='carteira_bronze',
-        application_file='carteira_bronze.yaml',
+        application_file='csn_templates/carteira_bronze.yaml',
         namespace="spark-operator",
         watch=True
     )
     carteira_silver = SparkKubernetesOperator(
         task_id='carteira_silver',
-        application_file='carteira_silver.yaml',
+        application_file='csn_templates/carteira_silver.yaml',
         namespace="spark-operator",
         watch=True
     )
     carteira_bronze >> carteira_silver
-
-
