@@ -31,7 +31,7 @@ spec:
     fs.s3a.path.style.access: "True"
   type: Python
   pythonVersion: "3"
-  image: "andonokar/testespark:1.1"
+  image: "andonokar/testespark:1.2"
   imagePullPolicy: Always
   imagePullSecrets:
     - docker-pass
