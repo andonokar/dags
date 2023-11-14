@@ -330,6 +330,5 @@ with DAG(
     tasks >> FATURA_bronze >> FATURA_silver
     tasks >> ESTOQUE_bronze >> ESTOQUE_silver
     [demanda_silver, carteira_silver, SKU_CLASSIFICACAO_silver, MB51_silver, ZSDI19_silver, TRANSACAO_ESTOQUE_silver,
-     ZV36_silver, FATURA_silver, ESTOQUE_silver, DEPARA_COMBO_silver, DEPARA_NORMAS_silver, DEPARA_FILIAL, DEPARA_GERENCIA,
-     DEPARA_TIPOAVALIACAO, DEPARA_CLIENTE, DEPARA_CLASSIFICACAO, DEPARA_PRODUTO, DEPARA_REGIAO, DEPARA_MOVIMENTACAO] \
+     ZV36_silver, FATURA_silver, ESTOQUE_silver] \
         >> gold_operations_demanda_inicial >> gold_operations_estoque >> gold_operations_faturamento_serie_temporal >> gold_operations_predicao
