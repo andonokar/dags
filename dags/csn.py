@@ -13,7 +13,7 @@ template = """
 apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
-  name: {table}-{{{{ ts_nodash | lower }}}}
+  name: {{{{ {table} | lower }}}}-{{{{ ts_nodash | lower }}}}
   namespace: spark-operator
 spec:
   volumes:
