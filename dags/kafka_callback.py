@@ -1,5 +1,6 @@
 import json
 from airflow.providers.apache.kafka.operators.produce import ProduceToTopicOperator
+import pickle
 
 
 def producer_function(text):
@@ -7,7 +8,7 @@ def producer_function(text):
 
 
 def produce_to_kafka(context):
-    output = json.dumps(context.items())
+    output = json.dumps(pickle.loads(pickle.dumps(context)))
 
     producer = ProduceToTopicOperator(
         kafka_config_id="kafka_producer_1",
@@ -16,4 +17,4 @@ def produce_to_kafka(context):
         producer_function=producer_function,
         producer_function_args=output
     )
-    producer.execute(context.items())
+    producer.execute(pickle.loads(pickle.dumps(context)))
