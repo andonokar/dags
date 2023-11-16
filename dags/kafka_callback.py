@@ -6,7 +6,7 @@ def producer_function(text):
     return None, text
 
 
-def produce_to_kafka(context):
+def produce_to_kafka(**context):
     output = json.dumps(context)
 
     producer = ProduceToTopicOperator(
