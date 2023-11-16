@@ -205,15 +205,15 @@ with DAG(
         watch=True
     )
 
-    DEPARA_COMBO_bronze = SparkKubernetesOperator(
-        task_id='DEPARA_COMBO_bronze',
-        application_file=template.format(table='DEPARA_COMBO', setup='bronze'),
+    DEPARA_COMBOS_bronze = SparkKubernetesOperator(
+        task_id='DEPARA_COMBOS_bronze',
+        application_file=template.format(table='DEPARA_COMBOS', setup='bronze'),
         namespace="spark-operator",
         watch=True
     )
-    DEPARA_COMBO_silver = SparkKubernetesOperator(
-        task_id='DEPARA_COMBO_silver',
-        application_file=template.format(table='DEPARA_COMBO', setup='silver'),
+    DEPARA_COMBOS_silver = SparkKubernetesOperator(
+        task_id='DEPARA_COMBOS_silver',
+        application_file=template.format(table='DEPARA_COMBOS', setup='silver'),
         namespace="spark-operator",
         watch=True
     )
