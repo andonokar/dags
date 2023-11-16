@@ -20,7 +20,6 @@ with DAG(
     # is_paused_upon_creation=False
 ) as dag:
     def await_function(message):
-        print(message)
         try:
             val = json.loads(message.value())
         except Exception as err:
