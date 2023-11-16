@@ -155,13 +155,13 @@ with DAG(
 
     TRANSACAO_ESTOQUE_bronze = SparkKubernetesOperator(
         task_id='TRANSACAO_ESTOQUE_bronze',
-        application_file=template.format(table='TRANSACAO', setup='bronze'),
+        application_file=template.format(table='TRANSACAO_ESTOQUE', setup='bronze'),
         namespace="spark-operator",
         watch=True
     )
     TRANSACAO_ESTOQUE_silver = SparkKubernetesOperator(
         task_id='TRANSACAO_ESTOQUE_silver',
-        application_file=template.format(table='TRANSACAO', setup='silver'),
+        application_file=template.format(table='TRANSACAO_ESTOQUE', setup='silver'),
         namespace="spark-operator",
         watch=True
     )
