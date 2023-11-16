@@ -1,6 +1,7 @@
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow import DAG
 from datetime import datetime
+from kafka_callback import produce_to_kafka
 
 default_args = {
     'owner': 'anderson',
@@ -8,6 +9,10 @@ default_args = {
     'depends_on_past': False,
     'retries': 0,
 }
+
+end_task = {"on_success_callback": produce_to_kafka,
+            "on_failure_callback": produce_to_kafka
+            }
 
 template = """
 apiVersion: "sparkoperator.k8s.io/v1beta2"
@@ -92,227 +97,261 @@ with DAG(
         task_id='demanda_bronze',
         application_file=template.format(table='DEMANDA', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
     demanda_silver = SparkKubernetesOperator(
         task_id='demanda_silver',
         application_file=template.format(table='DEMANDA', setup='silver'),
         namespace="spark-operator",
         watch=True,
+        **end_task
     )
 
     carteira_bronze = SparkKubernetesOperator(
         task_id='carteira_bronze',
         application_file=template.format(table='CARTEIRA', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
     carteira_silver = SparkKubernetesOperator(
         task_id='carteira_silver',
         application_file=template.format(table='CARTEIRA', setup='silver'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     SKU_CLASSIFICACAO_bronze = SparkKubernetesOperator(
         task_id='SKU_CLASSIFICACAO_bronze',
         application_file=template.format(table='SKU_CLASSIFICACAO', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
     SKU_CLASSIFICACAO_silver = SparkKubernetesOperator(
         task_id='SKU_CLASSIFICACAO_silver',
         application_file=template.format(table='SKU_CLASSIFICACAO', setup='silver'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     MB51_bronze = SparkKubernetesOperator(
         task_id='MB51_bronze',
         application_file=template.format(table='MB51', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
     MB51_silver = SparkKubernetesOperator(
         task_id='MB51_silver',
         application_file=template.format(table='MB51', setup='silver'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     ZSDI19_bronze = SparkKubernetesOperator(
         task_id='ZSDI19_bronze',
         application_file=template.format(table='ZSDI19', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
     ZSDI19_silver = SparkKubernetesOperator(
         task_id='ZSDI19_silver',
         application_file=template.format(table='ZSDI19', setup='silver'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     TRANSACAO_ESTOQUE_bronze = SparkKubernetesOperator(
         task_id='TRANSACAO_ESTOQUE_bronze',
         application_file=template.format(table='TRANSACAO_ESTOQUE', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
     TRANSACAO_ESTOQUE_silver = SparkKubernetesOperator(
         task_id='TRANSACAO_ESTOQUE_silver',
         application_file=template.format(table='TRANSACAO_ESTOQUE', setup='silver'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     ZV36_bronze = SparkKubernetesOperator(
         task_id='ZV36_bronze',
         application_file=template.format(table='ZV36', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
     ZV36_silver = SparkKubernetesOperator(
         task_id='ZV36_silver',
         application_file=template.format(table='ZV36', setup='silver'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     FATURA_bronze = SparkKubernetesOperator(
         task_id='FATURA_bronze',
         application_file=template.format(table='FATURA', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
     FATURA_silver = SparkKubernetesOperator(
         task_id='FATURA_silver',
         application_file=template.format(table='FATURA', setup='silver'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     ESTOQUE_bronze = SparkKubernetesOperator(
         task_id='ESTOQUE_bronze',
         application_file=template.format(table='ESTOQUE', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
     ESTOQUE_silver = SparkKubernetesOperator(
         task_id='ESTOQUE_silver',
         application_file=template.format(table='ESTOQUE', setup='silver'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     DEPARA_COMBOS_bronze = SparkKubernetesOperator(
         task_id='DEPARA_COMBOS_bronze',
         application_file=template.format(table='DEPARA_COMBOS', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
     DEPARA_COMBOS_silver = SparkKubernetesOperator(
         task_id='DEPARA_COMBOS_silver',
         application_file=template.format(table='DEPARA_COMBOS', setup='silver'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     DEPARA_NORMAS_bronze = SparkKubernetesOperator(
         task_id='DEPARA_NORMAS_bronze',
         application_file=template.format(table='DEPARA_NORMAS', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
     DEPARA_NORMAS_silver = SparkKubernetesOperator(
         task_id='DEPARA_NORMAS_silver',
         application_file=template.format(table='DEPARA_NORMAS', setup='silver'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     DEPARA_FILIAL = SparkKubernetesOperator(
         task_id='DEPARA_FILIAL',
         application_file=template.format(table='DEPARA_FILIAL', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     DEPARA_GERENCIA = SparkKubernetesOperator(
         task_id='DEPARA_GERENCIA',
         application_file=template.format(table='DEPARA_GERENCIA', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     DEPARA_TIPOAVALIACAO = SparkKubernetesOperator(
         task_id='DEPARA_TIPOAVALIACAO',
         application_file=template.format(table='DEPARA_TIPOAVALIACAO', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     DEPARA_CLIENTE = SparkKubernetesOperator(
         task_id='DEPARA_CLIENTE',
         application_file=template.format(table='DEPARA_CLIENTE', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     DEPARA_CLASSIFICACAO = SparkKubernetesOperator(
         task_id='DEPARA_CLASSIFICACAO',
         application_file=template.format(table='DEPARA_CLASSIFICACAO', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     DEPARA_PRODUTO = SparkKubernetesOperator(
         task_id='DEPARA_PRODUTO',
         application_file=template.format(table='DEPARA_PRODUTO', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     DEPARA_REGIAO = SparkKubernetesOperator(
         task_id='DEPARA_REGIAO',
         application_file=template.format(table='DEPARA_REGIAO', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     DEPARA_MOVIMENTACAO = SparkKubernetesOperator(
         task_id='DEPARA_MOVIMENTACAO',
         application_file=template.format(table='DEPARA_MOVIMENTACAO', setup='bronze'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     gold_operations_demanda_inicial = SparkKubernetesOperator(
         task_id='gold_operations_demanda_inicial',
         application_file=template.format(table='gold_operations_demanda_inicial', setup='gold'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     gold_operations_estoque = SparkKubernetesOperator(
         task_id='gold_operations_estoque',
         application_file=template.format(table='gold_operations_estoque', setup='gold'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     gold_operations_faturamento_serie_temporal = SparkKubernetesOperator(
         task_id='gold_operations_faturamento_serie_temporal',
         application_file=template.format(table='gold_operations_faturamento_serie_temporal', setup='gold'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
 
     gold_operations_predicao = SparkKubernetesOperator(
         task_id='gold_operations_predicao',
         application_file=template.format(table='gold_operations_predicao', setup='gold'),
         namespace="spark-operator",
-        watch=True
+        watch=True,
+        **end_task
     )
     tasks = [DEPARA_COMBOS_silver, DEPARA_NORMAS_silver, DEPARA_FILIAL, DEPARA_GERENCIA, DEPARA_TIPOAVALIACAO, DEPARA_CLIENTE,
              DEPARA_CLASSIFICACAO, DEPARA_PRODUTO, DEPARA_REGIAO, DEPARA_MOVIMENTACAO]
