@@ -7,7 +7,7 @@ def producer_function(text):
 
 
 def produce_to_kafka(context):
-    output = json.dumps(context.as_dict())
+    output = json.dumps(context.items())
 
     producer = ProduceToTopicOperator(
         kafka_config_id="kafka_producer_1",
@@ -16,4 +16,4 @@ def produce_to_kafka(context):
         producer_function=producer_function,
         producer_function_args=output
     )
-    producer.execute(context.as_dict())
+    producer.execute(context.items())
