@@ -8,7 +8,7 @@ def producer_function(text):
 
 
 def produce_to_kafka(context):
-    output = json.dumps(pickle.loads(pickle.dumps(context)))
+    output = dict([(key, context[key]) for key in context])
 
     producer = ProduceToTopicOperator(
         kafka_config_id="kafka_producer_1",
