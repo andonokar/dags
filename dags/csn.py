@@ -314,10 +314,10 @@ with DAG(
         namespace="spark-operator",
         watch=True
     )
-    tasks = [DEPARA_COMBO_silver, DEPARA_NORMAS_silver, DEPARA_FILIAL, DEPARA_GERENCIA, DEPARA_TIPOAVALIACAO, DEPARA_CLIENTE,
+    tasks = [DEPARA_COMBOS_silver, DEPARA_NORMAS_silver, DEPARA_FILIAL, DEPARA_GERENCIA, DEPARA_TIPOAVALIACAO, DEPARA_CLIENTE,
              DEPARA_CLASSIFICACAO, DEPARA_PRODUTO, DEPARA_REGIAO, DEPARA_MOVIMENTACAO]
 
-    DEPARA_COMBO_bronze >> DEPARA_COMBO_silver
+    DEPARA_COMBOS_bronze >> DEPARA_COMBOS_silver
     DEPARA_NORMAS_bronze >> DEPARA_NORMAS_silver
 
     tasks >> demanda_bronze >> demanda_silver
