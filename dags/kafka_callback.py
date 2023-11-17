@@ -7,15 +7,22 @@ def producer_function(text):
 
 
 def produce_to_kafka(context):
-    output = dict([(key, context[key]) for key in context])
-    raise KeyError(output, str(output))
-    arg = json.dumps(output)
+    ti = context["ti"]
+    output = json.dumps({
+        "dag_id": ti.dag_id,
+        "task_id": ti.task_id,
+        "run_id": ti.run_id,
+        "start_date": ti.start_date,
+        "end_date": ti.end_date,
+        "duration": ti.duration,
+        "log_url": ti.log_url
+    })
 
     producer = ProduceToTopicOperator(
         kafka_config_id="kafka_producer_1",
         task_id='produce_to_topic',
         topic="airflow_logs",
         producer_function=producer_function,
-        producer_function_args=arg
+        producer_function_args=output
     )
-    producer.execute(output)
+    producer.execute(context)
