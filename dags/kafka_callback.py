@@ -2,7 +2,7 @@ import json
 from airflow.providers.apache.kafka.operators.produce import ProduceToTopicOperator
 
 
-def producer_function(**kwargs):
+def producer_function(*args, **kwargs):
     return None, kwargs['text']
 
 
