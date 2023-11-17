@@ -23,6 +23,6 @@ def produce_to_kafka(context):
         task_id='produce_to_topic',
         topic="airflow_logs",
         producer_function=producer_function,
-        producer_function_args=output
+        producer_function_kwargs={"text": output}
     )
     producer.execute(context)
