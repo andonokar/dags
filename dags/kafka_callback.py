@@ -3,7 +3,7 @@ from airflow.providers.apache.kafka.operators.produce import ProduceToTopicOpera
 
 
 def producer_function(*args, **kwargs):
-    return None, kwargs['text']
+    yield None, kwargs['text']
 
 
 def produce_to_kafka(context):
