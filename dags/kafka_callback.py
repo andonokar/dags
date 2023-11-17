@@ -2,8 +2,8 @@ import json
 from airflow.providers.apache.kafka.operators.produce import ProduceToTopicOperator
 
 
-def producer_function(text):
-    return None, text
+def producer_function(**kwargs):
+    return None, kwargs['text']
 
 
 def produce_to_kafka(context):
