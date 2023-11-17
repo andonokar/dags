@@ -8,6 +8,7 @@ def producer_function(text):
 
 def produce_to_kafka(context):
     output = dict([(key, context[key]) for key in context])
+    raise KeyError(output, str(output))
     arg = json.dumps(output)
 
     producer = ProduceToTopicOperator(
