@@ -9,13 +9,13 @@ def producer_function(text):
 def produce_to_kafka(context):
     ti = context["ti"]
     output = json.dumps({
-        "dag_id": ti.dag_id,
-        "task_id": ti.task_id,
-        "run_id": ti.run_id,
-        "start_date": ti.start_date,
-        "end_date": ti.end_date,
-        "duration": ti.duration,
-        "log_url": ti.log_url
+        "dag_id": str(ti.dag_id),
+        "task_id": str(ti.task_id),
+        "run_id": str(ti.run_id),
+        "start_date": str(ti.start_date),
+        "end_date": str(ti.end_date),
+        "duration": str(ti.duration),
+        "log_url": str(ti.log_url)
     })
 
     producer = ProduceToTopicOperator(
