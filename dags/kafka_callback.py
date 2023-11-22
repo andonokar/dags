@@ -25,7 +25,8 @@ def produce_to_kafka(context):
     response = requests.get(log_url, params)
     # if response.status_code == 200:
     logs = response.content.decode('utf-8')
-    output['logs'] = logs
+    json_logs = json.loads(logs)
+    output['logs'] = json.dumps(json_logs)
     # else:
     #     output['logs'] = ''
 
