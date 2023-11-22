@@ -16,13 +16,14 @@ def produce_to_kafka(context):
         "start_date": str(ti.start_date),
         "end_date": str(ti.end_date),
         "duration": str(ti.duration),
+        "try_number": str(ti.try_number),
         "state": str(ti.state),
         "log_url": str(ti.log_url)
     }
 
-    log_url = f'http://airflow-webserver:8080/api/experimental/dags/{ti.dag_id}/dagRuns/{ti.run_id}/taskInstances/{ti.task_id}/logs/1'
+    log_url = f'http://airflow-webserver:8080/api/v1/dags/{ti.dag_id}/dagRuns/{ti.run_id}/taskInstances/{ti.task_id}/logs/{ti.try_number}'
     params = {"full_content": "true"}
-    response = requests.get(log_url, params)
+    response = requests.get(log_url, params=params, auth=("admin", "admin"))
     # if response.status_code == 200:
     logs = response.content.decode('utf-8')
     output['logs'] = logs
