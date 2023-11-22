@@ -22,11 +22,11 @@ def produce_to_kafka(context):
 
     log_url = f'http://airflow-webserver:8080/api/v1/dags/{ti.dag_id}/tasks/{ti.task_id}/logs?try_number=0&limit=1000'
     response = requests.get(log_url)
-    if response.status_code == 200:
-        logs = response.content.decode('utf-8')
-        output['logs'] = logs
-    else:
-        output['logs'] = ''
+    # if response.status_code == 200:
+    logs = response.content.decode('utf-8')
+    output['logs'] = logs
+    # else:
+    #     output['logs'] = ''
 
     json_output = json.dumps(output)
     producer = ProduceToTopicOperator(
