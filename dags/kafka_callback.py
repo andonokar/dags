@@ -22,7 +22,7 @@ def produce_to_kafka(context):
     }
 
     log_url = f'http://airflow-webserver:8080/api/v1/dags/{ti.dag_id}/dagRuns/{ti.run_id}/taskInstances/{ti.task_id}/logs/{ti.try_number}'
-    params = {"full_content": "true"}
+    params = {"full_content": True}
     response = requests.get(log_url, params=params, auth=("admin", "admin"))
     # if response.status_code == 200:
     logs = response.content.decode('utf-8')
