@@ -30,6 +30,8 @@ def produce_to_kafka(context):
         if line:
             decoded_line = line.decode('utf-8')
             logs.append(decoded_line)
+        else:
+            break
     output['logs'] = logs
     # else:
     #     output['logs'] = ''
