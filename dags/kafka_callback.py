@@ -28,7 +28,7 @@ def produce_to_kafka(context):
     # response = requests.get(log_url, auth=("admin", "admin"))
     # if response.status_code == 200:
     # logs = response.text
-    output['logs'] = response
+    output['logs'] = response.stdout
     # else:
     #     output['logs'] = ''
 
