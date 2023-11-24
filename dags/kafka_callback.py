@@ -1,7 +1,7 @@
 import json
 import requests
 from airflow.providers.apache.kafka.operators.produce import ProduceToTopicOperator
-
+import subprocess
 
 def producer_function(*args, **kwargs):
     yield None, kwargs['text']
@@ -20,13 +20,14 @@ def produce_to_kafka(context):
         "state": str(ti.state),
         "log_url": str(ti.log_url)
     }
-
+    init = """curl --user "admin:admin """""
     log_url = f'http://airflow-webserver:8080/api/v1/dags/{ti.dag_id}/dagRuns/{ti.run_id}/taskInstances/{ti.task_id}/logs/{ti.try_number}'
+    response = subprocess.run(init + log_url, shell=True, stderr=subprocess.PIPE, text=True)
     # params = {"full_content": True}
-    response = requests.get(log_url, auth=("admin", "admin"))
+    # response = requests.get(log_url, auth=("admin", "admin"))
     # if response.status_code == 200:
-    logs = response.text
-    output['logs'] = logs
+    # logs = response.text
+    output['logs'] = response
     # else:
     #     output['logs'] = ''
 
