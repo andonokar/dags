@@ -3,6 +3,7 @@ import requests
 from airflow.providers.apache.kafka.operators.produce import ProduceToTopicOperator
 import subprocess
 
+
 def producer_function(*args, **kwargs):
     yield None, kwargs['text']
 
