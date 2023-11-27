@@ -22,15 +22,16 @@ def produce_to_kafka(context):
         "log_url": str(ti.log_url)
     }
     time.sleep(600)
-    init = """curl --user "admin:admin" """
+    logs = []
     log_url = f'http://airflow-webserver:8080/api/v1/dags/{ti.dag_id}/dagRuns/{ti.run_id}/taskInstances/{ti.task_id}/logs/{ti.try_number}?full_content=true'
     # params = {"full_content": True}
     response = requests.get(log_url, auth=("admin", "admin"))
+    for line in response.iter_lines():
+        decoded_line = line.decode('utf-8')
+        logs.append(decoded_line)
     # if response.status_code == 200:
-    logs = response.text
+    # logs = response.text
     output['logs'] = logs
-    # else:
-    #     output['logs'] = ''
 
     json_output = json.dumps(output)
     producer = ProduceToTopicOperator(
