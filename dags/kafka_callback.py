@@ -1,7 +1,6 @@
 import json
 import requests
 from airflow.providers.apache.kafka.operators.produce import ProduceToTopicOperator
-import time
 
 
 def producer_function(*args, **kwargs):
@@ -17,13 +16,12 @@ def produce_to_kafka(context):
         "start_date": str(ti.start_date),
         "end_date": str(ti.end_date),
         "duration": str(ti.duration),
-        "try_number": str(ti.try_number),
+        "try_number": str(ti.try_number - 1),
         "state": str(ti.state),
         "log_url": str(ti.log_url)
     }
-    time.sleep(600)
     logs = []
-    log_url = f'http://airflow-webserver:8080/api/v1/dags/{ti.dag_id}/dagRuns/{ti.run_id}/taskInstances/{ti.task_id}/logs/{ti.try_number}?full_content=true'
+    log_url = f'http://airflow-webserver:8080/api/v1/dags/{ti.dag_id}/dagRuns/{ti.run_id}/taskInstances/{ti.task_id}/logs/{ti.try_number - 1}?full_content=true'
     # params = {"full_content": True}
     response = requests.get(log_url, auth=("admin", "admin"), stream=True)
     for line in response.iter_lines():
