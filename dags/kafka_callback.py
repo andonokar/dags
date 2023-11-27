@@ -25,7 +25,7 @@ def produce_to_kafka(context):
     logs = []
     log_url = f'http://airflow-webserver:8080/api/v1/dags/{ti.dag_id}/dagRuns/{ti.run_id}/taskInstances/{ti.task_id}/logs/{ti.try_number}?full_content=true'
     # params = {"full_content": True}
-    response = requests.get(log_url, auth=("admin", "admin"))
+    response = requests.get(log_url, auth=("admin", "admin"), stream=True)
     for line in response.iter_lines():
         decoded_line = line.decode('utf-8')
         logs.append(decoded_line)
