@@ -36,10 +36,10 @@ spec:
     fs.s3a.path.style.access: "True"
   type: Python
   pythonVersion: "3"
-  image: "andonokar/testespark:1.2"
+  image: "915484175192.dkr.ecr.us-east-1.amazonaws.com/csn-ingest-data:1.0"
   imagePullPolicy: Always
-  imagePullSecrets:
-    - docker-pass
+#  imagePullSecrets:
+#    - docker-pass
   mainApplicationFile: "local:///app/e2etest.py"
   arguments:
     - "csn"
@@ -49,30 +49,30 @@ spec:
   restartPolicy:
     type: Never
   driver:
-#    envSecretKeyRefs:
-#      AWS_ACCESS_KEY_ID:
-#        name: aws-secret
-#        key: awsAccessKeyId
-#      AWS_SECRET_ACCESS_KEY:
-#        name: aws-secret
-#        key: awsSecretAccessKey
+    envSecretKeyRefs:
+      AWS_ACCESS_KEY_ID:
+        name: aws-secret
+        key: AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY:
+        name: aws-secret
+        key: AWS_SECRET_ACCESS_KEY
     cores: 1
     coreRequest: "500m"
     coreLimit: "1200m"
     memory: "2g"
     labels:
-      version: 3.3.2
+      version: 3.3.1
     volumeMounts:
       - name: ivy
         mountPath: /tmp
   executor:
-#    envSecretKeyRefs:
-#      AWS_ACCESS_KEY_ID:
-#        name: aws-secret
-#        key: awsAccessKeyId
-#      AWS_SECRET_ACCESS_KEY:
-#        name: aws-secret
-#        key: awsSecretAccessKey
+    envSecretKeyRefs:
+      AWS_ACCESS_KEY_ID:
+        name: aws-secret
+        key: AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY:
+        name: aws-secret
+        key: AWS_SECRET_ACCESS_KEY
     cores: 1
     coreRequest: "500m"
     instances: 2

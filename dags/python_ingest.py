@@ -12,8 +12,8 @@ default_args = {
     'retries': 0,
 }
 
-aws_key = Secret(deploy_type="env", deploy_target="AWS_ACCESS_KEY_ID", secret="aws", key="AWS_ACCESS_KEY_ID")
-secret_aws_key = Secret(deploy_type="env", deploy_target="AWS_SECRET_ACCESS_KEY", secret="aws", key="AWS_SECRET_ACCESS_KEY")
+aws_key = Secret(deploy_type="env", deploy_target="AWS_ACCESS_KEY_ID", secret="aws-secret", key="AWS_ACCESS_KEY_ID")
+secret_aws_key = Secret(deploy_type="env", deploy_target="AWS_SECRET_ACCESS_KEY", secret="aws-secret", key="AWS_SECRET_ACCESS_KEY")
 
 with DAG(
     'python_ingest',
