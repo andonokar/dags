@@ -4,6 +4,8 @@ from airflow.providers.apache.kafka.sensors.kafka import AwaitMessageTriggerFunc
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 import json
 from airflow.providers.cncf.kubernetes.secret import Secret
+from kafka_callback import produce_to_kafka
+from kubernetes.client.models import V1ResourceRequirements
 
 default_args = {
     'owner': 'anderson',
@@ -44,7 +46,10 @@ with DAG(
             arguments=[bucket_name],
             get_logs=True,
             in_cluster=True,
-            secrets=[aws_key, secret_aws_key]
+            secrets=[aws_key, secret_aws_key],
+            on_finish_action="delete_succeeded_pod",
+            on_success_callback=produce_to_kafka,
+            container_resources=V1ResourceRequirements(limits={"memory": "4096M", "cpu": "100m"})
         ).execute(context)
 
     kafka_task = AwaitMessageTriggerFunctionSensor(
