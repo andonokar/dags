@@ -3,6 +3,7 @@ from datetime import datetime
 from airflow.providers.apache.kafka.sensors.kafka import AwaitMessageTriggerFunctionSensor
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 import json
+from airflow.providers.cncf.kubernetes.secret import Secret
 
 default_args = {
     'owner': 'anderson',
@@ -10,6 +11,9 @@ default_args = {
     'depends_on_past': False,
     'retries': 0,
 }
+
+aws_key = Secret(deploy_type="env", deploy_target="AWS_ACCESS_KEY_ID", secret="aws", key="AWS_ACCESS_KEY_ID")
+secret_aws_key = Secret(deploy_type="env", deploy_target="AWS_SECRET_ACCESS_KEY", secret="aws", key="AWS_SECRET_ACCESS_KEY")
 
 with DAG(
     'python_ingest',
@@ -32,12 +36,15 @@ with DAG(
     def wait_for_event(message, **context):
         bucket_name = message.get("bucket_name")
         KubernetesPodOperator(
-            namespace="ingest",
+            namespace="python",
             image=f"915484175192.dkr.ecr.us-east-1.amazonaws.com/dr_pythoningest:1.0",
             name=f"{bucket_name}_pythoningest",
             random_name_suffix=True,
             cmds=["python3", "e2etest.py"],
-            arguments=[bucket_name]
+            arguments=[bucket_name],
+            get_logs=True,
+            in_cluster=True,
+            secrets=[aws_key, secret_aws_key]
         ).execute(context)
 
     kafka_task = AwaitMessageTriggerFunctionSensor(
