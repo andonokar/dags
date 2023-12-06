@@ -23,7 +23,8 @@ with DAG(
         default_args=default_args,
         schedule_interval="@continuous",  # Set to None if you don't want the DAG to be scheduled
         max_active_runs=1,
-        catchup=False
+        catchup=False,
+        is_paused_upon_creation=False
 ) as dag:
     unchanged_sensor = S3KeysUnchangedSensor(
         task_id='csn_sensor',
