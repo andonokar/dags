@@ -39,6 +39,7 @@ with DAG(
         bucket_name = message.get("bucket_name")
         KubernetesPodOperator(
             namespace="python",
+            task_id="python_ingest",
             image=f"915484175192.dkr.ecr.us-east-1.amazonaws.com/dr_pythoningest:1.0",
             name=f"{bucket_name}_pythoningest",
             random_name_suffix=True,
@@ -49,12 +50,12 @@ with DAG(
             secrets=[aws_key, secret_aws_key],
             on_finish_action="delete_succeeded_pod",
             on_success_callback=produce_to_kafka,
-            container_resources=V1ResourceRequirements(limits={"memory": "4096M", "cpu": "100m"})
+            container_resources=V1ResourceRequirements(limits={"memory": "4096M", "cpu": "1000m"})
         ).execute(context)
 
     kafka_task = AwaitMessageTriggerFunctionSensor(
         kafka_config_id='kafka_consumer_1',
-        task_id='test_kafka',
+        task_id='kafka_sensor',
         topics=['python_ingest'],
         apply_function="kafka_listener_test.await_function",
         event_triggered_function=wait_for_event
