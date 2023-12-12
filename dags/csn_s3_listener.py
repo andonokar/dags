@@ -38,6 +38,7 @@ with DAG(
 
     trigger_dag_run = ProduceToTopicOperator(
         task_id='trigger_dag_on_success',
+        kafka_config_id="kafka_producer_1",
         topic="python_ingest",
         producer_function=producer_function
     )
