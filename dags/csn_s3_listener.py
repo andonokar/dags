@@ -10,10 +10,11 @@ default_args = {
     'depends_on_past': False,
     'retries': 0
 }
+BUCKET_NAME = "csn-sftp-layer-prd-9154-8417-5192"
 
 
 def producer_function(*args, **kwargs):
-    template = {"bucket_name": "csn-ingestion-layer-prd-9154-8417-5192"}
+    template = {"bucket_name": f"{BUCKET_NAME}"}
     kafka_msg = json.dumps(template)
     yield None, kafka_msg
 
@@ -29,10 +30,10 @@ with DAG(
     unchanged_sensor = S3KeysUnchangedSensor(
         task_id='csn_sensor',
         aws_conn_id="aws_csn",
-        bucket_name='csn-ingestion-layer-prd-9154-8417-5192',
-        prefix='',
+        bucket_name=f'{BUCKET_NAME}',
+        prefix='SFTP_csn/INGESTAO/',
         inactivity_period=300,
-        min_objects=22
+        min_objects=21
     )
 
     trigger_dag_run = ProduceToTopicOperator(
